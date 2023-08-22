@@ -4,6 +4,9 @@
 
 #### Installation
 
+requirements : 
+ - PHP 8.1
+
 after clone this repo, you should run this commands in your terminal inside project directory
 
 ```
