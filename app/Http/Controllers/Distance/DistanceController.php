@@ -26,10 +26,13 @@ class DistanceController extends Controller
      */
     public function calcGeolocationDistances(): string
     {
-        $data = $this->locationService->calcGeolocationDistances();
-        $this->addressService->outputAddresses($data['addressesLocation']);
-        return "Distances calculated and saved in distances.csv in path: {$data['csvPath']}";
+        try {
+            $data = $this->locationService->calcGeolocationDistances();
+            $this->addressService->outputAddresses($data['addressesLocation']);
+            return "Distances calculated and saved in distances.csv in path: {$data['csvPath']}";
+        } catch (\Exception $exception) {
+            return "Error: {$exception->getMessage()} \n File: {$exception->getFile()} \n Line: {$exception->getLine()}";
+        }
     }
-
 
 }

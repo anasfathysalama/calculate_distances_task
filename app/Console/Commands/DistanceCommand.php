@@ -38,11 +38,16 @@ class DistanceCommand extends Command
      */
     public function handle()
     {
-        $data = $this->locationService->calcGeolocationDistances();
-        foreach ($data['addressesLocation'] as $location) {
-            echo "{$location['Sortnumber']},{$location['Distance']},{$location['Name']},{$location['Address']}" . PHP_EOL;
+        try {
+            $data = $this->locationService->calcGeolocationDistances();
+            foreach ($data['addressesLocation'] as $location) {
+                echo "{$location['Sortnumber']},{$location['Distance']},{$location['Name']},{$location['Address']}" . PHP_EOL;
+            }
+            $this->info("Distances calculated and saved in distances.csv in path: {$data['csvPath']}");
+            return Command::SUCCESS;
+        } catch (\Exception $exception) {
+            $this->error("Error: {$exception->getMessage()} \n File: {$exception->getFile()} \n Line: {$exception->getLine()}");
+            return Command::FAILURE;
         }
-        $this->info("Distances calculated and saved in distances.csv in path: {$data['csvPath']}");
-        return Command::SUCCESS;
     }
 }
